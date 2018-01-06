@@ -38,15 +38,24 @@ var app = app || {};
   };
 
   Article.numWordsAll = () => {
-    return Article.all.map(x => x.body.split(' ').length).reduce((acc, cur) => acc + cur);
+    return Article.all.map(article => article.body.split(' ').length).reduce((acc, cur) => acc + cur);
   };
 
   Article.allAuthors = () => {
-    return Article.all.map().reduce();
-  };
+    return Article.all.map(article => article.author).reduce((acc, cur) => {
+      if(!acc.includes(cur)) {
+        acc.push(cur);
+      }
+      return acc;
+    }, [])
+  }
 
   Article.numWordsByAuthor = () => {
-    return Article.allAuthors().map(author => { })
+    return app.Article.allAuthors().map(author => {
+      return app.Article.all.filter(article => article.author === author).map(article => { 
+        return article.body.split(' ').length;
+      }).reduce((acc, cur) => acc + cur);
+    });
   };
 
   Article.truncateTable = callback => {
